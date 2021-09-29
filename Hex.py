@@ -120,4 +120,7 @@ def match(start): #returns -1 if I lost or 1 if I won.
             return -1
         #aca defino la jugada
 
+def prueba(algo) :
+    return algo+1
+
 match(True)

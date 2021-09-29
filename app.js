@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+const { execSync } = require('child_process');
 
 //const cher = require('cheerio').load(views/Hex.html); 
 var turn = true;
@@ -27,35 +28,13 @@ var updateColor = function(req,res,next){
 app.use(updateColor);
 
 app.get('/', function(req, res) {
-  //res.render('header.html');
   res.render('Hex.html');
-  // c=`<!DOCTYPE html>
-  // <html>
-  //   <head>
-  //     <link rel="stylesheet" type="text/css" href="Hex.css" >
-  //     <script type="text/javascript" src="Hex.js"></script>
-  //     <script>
-        
-  //     </script>
-  //     <style id="change-color">
-  //       .WhiteButton:hover {
-  //         background-color: #4CAF50;
-  //       }
-  //     </style>
-  
-  //   </head>
-  
-  //   <body>
-  //     Luigi puto
-  //     <button class="WhiteButton" onclick="test(132)"></button>
-  //       <button class="BlueButton" onclick=""></button>
-  //       <button class="RedButton" onclick=""></button>		
-      
-  //     <p id='pagina'></p>
-  //     </body>
-  // </html>	`;
-  // res.send(c);
-  // res.render('footer.html');
+ 
+});
+
+app.get('/algo/:movs', function(req, res) {
+  var stdout = execSync("python3 test.py", {input: req.params['movs']});
+  res.set("text/plain").send(stdout);
 });
 
 app.listen(3000, function(){
