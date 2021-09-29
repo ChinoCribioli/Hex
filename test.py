@@ -1,2 +1,4 @@
 a = input()
-print(int(a)+1)
+print("Inicio del input")
+print(a)
+print("fin")

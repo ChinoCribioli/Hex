@@ -1,6 +1,8 @@
 var even=0;
+var moves = "";
 
 function color(s){
+  moves += s;
   if(document.getElementById(s).className != "WhiteButton") return;
   // var style = ".WhiteButton:hover { background-color: violet;}";
   // document.getElementById("change-color").innerHTML = style;
@@ -11,7 +13,11 @@ function color(s){
   } else {
     document.getElementById("content").classList.remove("odd");
   }
-  
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", function() {console.log(this.responseText)});
+  oReq.open("GET","http://localhost:3000/algo/" + moves);
+  oReq.send();
+
 }
 
 function CreateButton(x,y){
