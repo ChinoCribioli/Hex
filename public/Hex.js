@@ -10,8 +10,9 @@ function color(s){
     document.getElementById("content").classList.add("odd");
   } else {
     document.getElementById("content").classList.remove("odd");
-
   }
+  
+
 }
 
 function CreateButton(x,y){
