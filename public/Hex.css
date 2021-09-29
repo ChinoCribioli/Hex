@@ -20,6 +20,6 @@
   }
 
   .WhiteButton:hover {
-    background-color: #4CAF50;
+    background-color: red;
  }
- .WhiteButton.pressed:hover { background-color: violet;}
+ .WhiteButton.pressed:hover { background-color: blue;}
