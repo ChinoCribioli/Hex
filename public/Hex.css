@@ -9,9 +9,12 @@
   .RedButton {
     border: 1px solid;
     padding: 10px 10px;
-    background-color: red; 
+    background-color: red;
   }
-  
+
+  .RedButton:hover {
+    background-color: red;
+  }
   
   .BlueButton {
     padding: 10px 10px;
@@ -19,7 +22,11 @@
     border: 1px solid;
   }
 
-  .WhiteButton:hover {
+  .BlueButton:hover {
+    background-color: blue;
+ }
+
+.WhiteButton:hover {
     background-color: red;
  }
- .WhiteButton.pressed:hover { background-color: blue;}
+.odd .WhiteButton:hover { background-color: blue;}
