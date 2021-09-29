@@ -108,11 +108,12 @@ def match(start): #returns -1 if I lost or 1 if I won.
     if start :
         pass
         #aca si justo me toca empezar
-    
-    while True :
-        x,y = map(int,input().split())
-        x -= 1
-        y -= 1
+    moves = list(map(lambda x:x.split("y"), input().split("x")[1:]))
+    for x,y in moves:
+        # x,y = map(int,input().split())
+        # print(" Mov",x,"    ",y)
+        x =int(x)
+        y =int(y)
         board[x][y] = 'R'
         print_pretty(board)
         print(take_distance(False))
@@ -120,7 +121,5 @@ def match(start): #returns -1 if I lost or 1 if I won.
             return -1
         #aca defino la jugada
 
-def prueba(algo) :
-    return algo+1
 
 match(True)

@@ -33,8 +33,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/algo/:movs', function(req, res) {
-  var stdout = execSync("python3 test.py", {input: req.params['movs']});
-  res.set("text/plain").send(stdout);
+  var stdout = execSync("python3 Hex.py", {input: req.params['movs']});
+  res.set("text/plain").send(stdout);//esto es el output de python
 });
 
 app.listen(3000, function(){
