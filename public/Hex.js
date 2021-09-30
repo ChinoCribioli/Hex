@@ -14,7 +14,11 @@ function color(s){
     document.getElementById("content").classList.remove("odd");
   }
   var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", function() {console.log(this.responseText)});//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
+  oReq.addEventListener("load", function() {
+    moves += this.responseText;
+    document.getElementById(this.responseText).className = "BlueButton"
+    console.log(moves);
+  });//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
   oReq.open("GET","http://localhost:3000/algo/" + moves);
   oReq.send();
 

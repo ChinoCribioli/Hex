@@ -12,21 +12,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
 app.engine('.html', require('ejs').renderFile);
 
-var updateColor = function(req,res,next){
-  var style = ".WhiteButton:hover {" + "\n" + "background-color: ";
-  if(turn){
-    style += "red;\n}";
-  }
-  else{
-    style += "blue;\n}";
-  }
-  //document.getElementById("change-color").innetHTML = style;
-  turn = !turn;
-  next();
-};
-
-app.use(updateColor);
-
 app.get('/', function(req, res) {
   res.render('Hex.html');
  

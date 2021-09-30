@@ -1,7 +1,8 @@
 from termcolor import colored
 import queue
 adj = [(-1,0),(1,0),(0,-1),(0,1),(1,1),(-1,-1)]
-N = 8
+N = 4
+steps_forward = 2
 global board
 board = [[0 for j in range(N)]for i in range(N)]
 global rates
@@ -42,7 +43,7 @@ def won_player(player): #player == True if I want to know if my rival won
 def take_distance(player): #the minimum number of tiles needed to win when playing alone
     #player == True, then I'm measuring my tiles, player == False for rival's tiles
     distance = [[N+2 for i in range(N)] for j in range(N)]
-    q = [ queue.Queue() for k in range(N)]
+    q = [ queue.Queue() for k in range(N+2)]
     
     for i in range(N):
         if player :
@@ -60,7 +61,7 @@ def take_distance(player): #the minimum number of tiles needed to win when playi
                 distance[0][i] = 1
                 q[1].put((0,i))
 
-    for k in range(N):
+    for k in range(N+2):
         while not q[k].empty() :
             (i,j) = q[k].get()
             for (a,b) in adj :
@@ -103,23 +104,88 @@ def print_pretty(something) :
     print('---------------')
     return
 
-def match(start): #returns -1 if I lost or 1 if I won.
-    #I am blue, my rival is red
-    if start :
-        pass
-        #aca si justo me toca empezar
-    moves = list(map(lambda x:x.split("y"), input().split("x")[1:]))
-    for x,y in moves:
-        # x,y = map(int,input().split())
-        # print(" Mov",x,"    ",y)
-        x =int(x)
-        y =int(y)
-        board[x][y] = 'R'
-        print_pretty(board)
-        print(take_distance(False))
-        if(won_player(True)):
-            return -1
-        #aca defino la jugada
+def make_split(x) :
+    return x.split("y")
+
+def rate_move(x,y,step):
+    #print("Hice rate_move con", x, y, "con step =",step)
+    I_play = (step+1)%2
+    board[x][y] = 'B' if I_play else 'R'
+    if step == steps_forward:
+        answer = take_distance(True) - take_distance(False)
+        board[x][y] = 0
+        return answer
+    if I_play: #Then it means that my rival has the next, which will have the smaller rate possible
+        answer = 2*N
+        for i in range(N):
+            for j in range(N):
+                if board[i][j] == 0:
+                    rate = rate_move(i,j,step+1)
+                    if answer > rate :
+                        answer = rate
+        board[x][y] = 0
+        return answer
+    #Now, if my rival is playing
+    answer = -2*N
+    for i in range(N):
+        for j in range(N):
+            if board[i][j] == 0:
+                rate = rate_move(i,j,step+1)
+                if answer < rate :
+                    answer = rate
+    board[x][y] = 0
+    return answer
+
+def make_move():
+
+    moves = list(map(make_split, input().split("x")[1:]))
+    
+    for i in range(len(moves)):
+        x = int(moves[i][0])
+        y = int(moves[i][1])
+        board[x][y] = 'B' if i%2 else 'R' #I am Blue and I'm playing second
+    if(won_player(True)):
+        print("l")
+        return
+    answer = ""
+    maximum_rate = -N*2
+    for i in range(N):
+        for j in range(N):
+            if board[i][j] == 0 :
+                rate = rate_move(i,j,0)
+                if maximum_rate < rate:
+                    maximum_rate = rate
+                    answer = "x" + str(i) + "y" + str(j)
+    move = list(map(int,(answer[1:]).split("y")))
+    #print(answer)
+    #print(move)
+    board[move[0]][move[1]] = 'B'
+    print_pretty(board) #despues comentar
+    if(won_player(False)):
+        print(answer+"w")
+    else:
+        print(answer)
+    return
+
+make_move() 
+
+    
+    
 
 
-match(True)
+
+# def match(start): #returns -1 if I lost or 1 if I won.
+#     #I am blue, my rival is red
+#     if start :
+#         pass
+#         #aca si justo me toca empezar
+#     moves = list(map(lambda x:x.split("y"), input().split("x")[1:]))
+#     for x,y in moves:
+#         x =int(x)
+#         y =int(y)
+#         board[x][y] = 'R'
+#         print_pretty(board)
+#         print(take_distance(False))
+#         if(won_player(True)):
+#             return -1
+#         #aca defino la jugada
