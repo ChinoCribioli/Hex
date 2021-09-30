@@ -123,6 +123,9 @@ def rate_move(x,y,step):
                     rate = rate_move(i,j,step+1)
                     if answer > rate :
                         answer = rate
+                        if answer == -(N*N+2):
+                            board[x][y] = 0
+                            return answer
         board[x][y] = 0
         return answer
     #Now, if my rival is playing
@@ -133,6 +136,9 @@ def rate_move(x,y,step):
                 rate = rate_move(i,j,step+1)
                 if answer < rate :
                     answer = rate
+                    if answer == N*N+2:
+                        board[x][y] = 0
+                        return answer
     board[x][y] = 0
     return answer
 
@@ -151,17 +157,16 @@ def make_move():
     answer = ""
     maximum_rate = -N*N*2
     for i in range(N):
+        if maximum_rate == N*N+2:
+            break
         for j in range(N):
             if board[i][j] == 0 :
                 rate = rate_move(i,j,0)
-                #print(rate)
-                #if(rate==-1):
-                    #board[i][j] = 'B'
-                    #print_pretty(board)
-                    #board[i][j] = 0
                 if maximum_rate < rate:
                     maximum_rate = rate
                     answer = "x" + str(i) + "y" + str(j)
+                if maximum_rate == N*N+2 :
+                    break
     move = list(map(int,(answer[1:]).split("y")))
     board[move[0]][move[1]] = 'B'
     #print_pretty(board)
