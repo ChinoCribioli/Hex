@@ -2,21 +2,22 @@ var even=0;
 var moves = "";
 
 function color(s){
-  moves += s;
   if(document.getElementById(s).className != "WhiteButton") return;
-  // var style = ".WhiteButton:hover { background-color: violet;}";
-  // document.getElementById("change-color").innerHTML = style;
-
-  document.getElementById(s).className = ((even++%2)?"BlueButton":"RedButton");
-  if(even%2){
-    document.getElementById("content").classList.add("odd");
-  } else {
-    document.getElementById("content").classList.remove("odd");
-  }
+  moves += s;
+  // document.getElementById(s).className = ((even++%2)?"BlueButton":"RedButton");
+  // if(even%2){
+  //   document.getElementById("content").classList.add("odd");
+  // } else {
+  //   document.getElementById("content").classList.remove("odd");
+  // }
+  document.getElementById(s).className = "RedButton";
+  
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function() {
-    moves += this.responseText;
-    document.getElementById(this.responseText).className = "BlueButton"
+    var response = this.responseText.slice(0,-1);
+    console.log(response);
+    moves += response;
+    document.getElementById(response).className = "BlueButton";
     console.log(moves);
   });//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
   oReq.open("GET","http://localhost:3000/algo/" + moves);
@@ -43,4 +44,4 @@ function gen(n){ //
   document.getElementById('content').innerHTML = answer ;
 }
 
-gen(6);
+gen(2);

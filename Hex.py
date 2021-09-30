@@ -1,7 +1,7 @@
 from termcolor import colored
 import queue
 adj = [(-1,0),(1,0),(0,-1),(0,1),(1,1),(-1,-1)]
-N = 4
+N = 2
 steps_forward = 2
 global board
 board = [[0 for j in range(N)]for i in range(N)]
@@ -42,8 +42,8 @@ def won_player(player): #player == True if I want to know if my rival won
 
 def take_distance(player): #the minimum number of tiles needed to win when playing alone
     #player == True, then I'm measuring my tiles, player == False for rival's tiles
-    distance = [[N+2 for i in range(N)] for j in range(N)]
-    q = [ queue.Queue() for k in range(N+2)]
+    distance = [[N*N+2 for i in range(N)] for j in range(N)]
+    q = [ queue.Queue() for k in range(N*N)]
     
     for i in range(N):
         if player :
@@ -61,7 +61,7 @@ def take_distance(player): #the minimum number of tiles needed to win when playi
                 distance[0][i] = 1
                 q[1].put((0,i))
 
-    for k in range(N+2):
+    for k in range(N*N):
         while not q[k].empty() :
             (i,j) = q[k].get()
             for (a,b) in adj :
@@ -80,7 +80,7 @@ def take_distance(player): #the minimum number of tiles needed to win when playi
                     if board[i+a][j+b] == 'R':
                         distance[i+a][j+b] = k
                         q[k].put((i+a,j+b))
-    answer = N+2
+    answer = N*N+2
     for i in range(N) :
         if player :
             answer = min(answer,distance[i][N-1])
@@ -112,11 +112,11 @@ def rate_move(x,y,step):
     I_play = (step+1)%2
     board[x][y] = 'B' if I_play else 'R'
     if step == steps_forward:
-        answer = take_distance(True) - take_distance(False)
+        answer = take_distance(False) - take_distance(True)
         board[x][y] = 0
         return answer
     if I_play: #Then it means that my rival has the next, which will have the smaller rate possible
-        answer = 2*N
+        answer = 2*N*N
         for i in range(N):
             for j in range(N):
                 if board[i][j] == 0:
@@ -126,7 +126,7 @@ def rate_move(x,y,step):
         board[x][y] = 0
         return answer
     #Now, if my rival is playing
-    answer = -2*N
+    answer = -2*N*N
     for i in range(N):
         for j in range(N):
             if board[i][j] == 0:
@@ -144,30 +144,34 @@ def make_move():
         x = int(moves[i][0])
         y = int(moves[i][1])
         board[x][y] = 'B' if i%2 else 'R' #I am Blue and I'm playing second
+    #print(take_distance(False)-take_distance(True))
     if(won_player(True)):
         print("l")
         return
     answer = ""
-    maximum_rate = -N*2
+    maximum_rate = -N*N*2
     for i in range(N):
         for j in range(N):
             if board[i][j] == 0 :
                 rate = rate_move(i,j,0)
+                #print(rate)
+                #if(rate==-1):
+                    #board[i][j] = 'B'
+                    #print_pretty(board)
+                    #board[i][j] = 0
                 if maximum_rate < rate:
                     maximum_rate = rate
                     answer = "x" + str(i) + "y" + str(j)
     move = list(map(int,(answer[1:]).split("y")))
-    #print(answer)
-    #print(move)
     board[move[0]][move[1]] = 'B'
-    print_pretty(board) #despues comentar
+    #print_pretty(board)
     if(won_player(False)):
         print(answer+"w")
     else:
         print(answer)
     return
 
-make_move() 
+make_move()
 
     
     
