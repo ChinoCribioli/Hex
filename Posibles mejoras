@@ -1,2 +1,4 @@
-*Que cuando llegue a una jugada con camino ganador, que corte y vaya por ahi
-*
+*Que cuando llegue a una jugada con camino ganador, que corte y vaya por ahi, o que cuando llegue a una jugada perdedora, la descarte
+*Que cuando clickeas una casilla, deshabilitar las demas para no hacer mas jugadas mientras python esta calculando
+*Añadir una matriz de rates para decidir en casos de empates, como cercania/lejania a casillas rojas, o formaciones puentes
+*Hacer mas eficiente el medir distancias, quizas cortarlo cuando llego al borde opuesto

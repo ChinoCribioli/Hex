@@ -14,7 +14,7 @@ function color(s){
   
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function() {
-    var response = this.responseText.slice(0,-1);
+    var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
     console.log(response);
     moves += response;
     document.getElementById(response).className = "BlueButton";
@@ -44,4 +44,4 @@ function gen(n){ //
   document.getElementById('content').innerHTML = answer ;
 }
 
-gen(2);
+gen(4);
