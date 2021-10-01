@@ -15,10 +15,21 @@ function color(s){
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function() {
     var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
-    console.log(response);
     moves += response;
-    document.getElementById(response).className = "BlueButton";
     console.log(moves);
+    var last_char = response[response.length-1];
+    console.log(last_char);
+    if(last_char == 'l'){
+      document.getElementById('content').innerHTML += "</br>Congratulations, you won!";
+      return;
+    }
+    if(last_char == 'w'){
+      response = response.slice(0,-1);
+      document.getElementById(response).className = "BlueButton";
+      document.getElementById('content').innerHTML += "</br>Haha, you lost!";
+      return;
+    }
+    document.getElementById(response).className = "BlueButton";
   });//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
   oReq.open("GET","http://localhost:3000/algo/" + moves);
   oReq.send();
@@ -44,4 +55,4 @@ function gen(n){ //
   document.getElementById('content').innerHTML = answer ;
 }
 
-gen(5);
+gen(4);
