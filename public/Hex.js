@@ -1,9 +1,12 @@
-var even=0;
+var turn = true;
 var moves = "";
 
 function color(s){
   if(moves.length == 0) document.getElementById('start').remove();
   if(document.getElementById(s).className != "WhiteButton") return;
+  if(turn){
+    turn = false;
+  } else return;
   moves += s;
   document.getElementById(s).className = "RedButton";
   
@@ -24,7 +27,8 @@ function color(s){
       return;
     }
     document.getElementById(response).className = "BlueButton";
-  });//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
+    turn = true;
+  });
   oReq.open("GET","http://localhost:3000/algo/" + moves);
   oReq.send();
 
@@ -37,7 +41,7 @@ function CreateButton(x,y){
   return ret;
 }
 
-function gen(n){ //
+function gen(n){
   var answer = ""
   for(var i=0;i<n;i++){
     for(var counter=0;counter<3*(n-1-i);counter++)answer += "&nbsp;";
@@ -52,23 +56,19 @@ function gen(n){ //
 
 function you_start(){
   document.getElementById('start').remove();
+  turn = false;
   moves += 's';
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function() {
     var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
     moves += response;
     console.log(moves);
-    // if(response[response.length-1] == 'w'){
-    //   response = response.slice(0,-1);
-    //   document.getElementById(response).className = "BlueButton";
-    //   document.getElementById('content').innerHTML += "</br>Haha, you lost!";
-    //   return;
-    // }
     document.getElementById(response).className = "BlueButton";
-  });//aca es donde se escribe la funcion que colorea los botones con "this.responseText"
+    turn = true;
+  });
   oReq.open("GET","http://localhost:3000/algo/" + moves);
   oReq.send();
 
 }
 
-gen(4);
+gen(5);
