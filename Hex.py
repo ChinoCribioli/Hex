@@ -2,7 +2,7 @@ from termcolor import colored
 import queue
 adj = [(-1,0),(1,0),(0,-1),(0,1),(1,1),(-1,-1)]
 N = 5
-steps_forward = 3
+steps_forward = 2
 global board
 board = [[0 for j in range(N)]for i in range(N)]
 global rates
@@ -85,13 +85,6 @@ def take_distance(player): #the minimum number of tiles needed to win when playi
                 if (not player) and i+a == N-1:
                     return distance[i+a][j+b]
     return N*N+2
-    # for i in range(N) :
-    #     if player :
-    #         answer = min(answer,distance[i][N-1])
-    #     else :
-    #         answer = min(answer,distance[N-1][i])
-    # return answer
-        
 
 def print_pretty(something) :
     for i in range(N) :

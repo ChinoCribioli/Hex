@@ -43,15 +43,29 @@ function CreateButton(x,y){
 
 function gen(n){
   var answer = ""
+  for(var counter=0;counter<3*(n-1);counter++) answer += "&nbsp;";
+  answer += "<button class='RedBorder'></button></br>";
+  //answer += "<button class='BlueBorder'></button>";
   for(var i=0;i<n;i++){
     for(var counter=0;counter<3*(n-1-i);counter++)answer += "&nbsp;";
     for(var j=0;j<n;j++){
       answer += CreateButton(i,j);
     }
+    if(i==n-1){
+      for(var j=0;j<6*n;j++) answer += "&nbsp;"
+      answer += "<button class='BlueBorder'></button>";
+    }
     answer += "<br/>"
   }
+  answer += "<button class='RedBorder'></button></br>"
   document.getElementById('content').innerHTML = answer ;
   document.getElementById('content').innerHTML += "</br> <button id='start' onclick=you_start()>Play second.</button>"
+  var red_borders = document.getElementsByClassName("RedBorder");//esto hay que mirarlo
+  console.log(red_borders.length);
+  for(var i=0; i<red_borders.length; i++){
+    red_borders[i].style.padding = "10px " + String(62+13*(n-5)) + "px";
+    console.log("10px " + String(62+13*(n-5)) + "px" );
+  }
 }
 
 function you_start(){
@@ -68,7 +82,6 @@ function you_start(){
   });
   oReq.open("GET","http://localhost:3000/algo/" + moves);
   oReq.send();
-
 }
 
 gen(5);
