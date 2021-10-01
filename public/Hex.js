@@ -5,12 +5,6 @@ function color(s){
   if(moves.length == 0) document.getElementById('start').remove();
   if(document.getElementById(s).className != "WhiteButton") return;
   moves += s;
-  // document.getElementById(s).className = ((even++%2)?"BlueButton":"RedButton");
-  // if(even%2){
-  //   document.getElementById("content").classList.add("odd");
-  // } else {
-  //   document.getElementById("content").classList.remove("odd");
-  // }
   document.getElementById(s).className = "RedButton";
   
   var oReq = new XMLHttpRequest();

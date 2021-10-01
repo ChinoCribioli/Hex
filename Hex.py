@@ -80,13 +80,17 @@ def take_distance(player): #the minimum number of tiles needed to win when playi
                     if board[i+a][j+b] == 'R':
                         distance[i+a][j+b] = k
                         q[k].put((i+a,j+b))
-    answer = N*N+2
-    for i in range(N) :
-        if player :
-            answer = min(answer,distance[i][N-1])
-        else :
-            answer = min(answer,distance[N-1][i])
-    return answer
+                if player and j+b == N-1: #If it's the first tile in the opposite side, return that distance
+                    return distance[i+a][j+b]
+                if (not player) and i+a == N-1:
+                    return distance[i+a][j+b]
+    return N*N+2
+    # for i in range(N) :
+    #     if player :
+    #         answer = min(answer,distance[i][N-1])
+    #     else :
+    #         answer = min(answer,distance[N-1][i])
+    # return answer
         
 
 def print_pretty(something) :
