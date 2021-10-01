@@ -142,13 +142,21 @@ def rate_move(x,y,step):
     return answer
 
 def make_move():
-
-    moves = list(map(make_split, input().split("x")[1:]))
-    
-    for i in range(len(moves)):
-        x = int(moves[i][0])
-        y = int(moves[i][1])
-        board[x][y] = 'B' if i%2 else 'R' #I am Blue and I'm playing second
+    history = input()
+    if history[0] == 's':
+        moves = list(map(make_split, (history[1:]).split("x")[1:]))
+    else:
+        moves = list(map(make_split, history.split("x")[1:]))
+    if history[0] == 's':
+        for i in range(len(moves)):
+            x = int(moves[i][0])
+            y = int(moves[i][1])
+            board[x][y] = 'R' if i%2 else 'B' #I am Blue and I'm playing first
+    else:   
+        for i in range(len(moves)):
+            x = int(moves[i][0])
+            y = int(moves[i][1])
+            board[x][y] = 'B' if i%2 else 'R' #I am Blue and I'm playing second
     if(won_player(True)):
         print("l")
         return
