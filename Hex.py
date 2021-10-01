@@ -1,7 +1,7 @@
 from termcolor import colored
 import queue
 adj = [(-1,0),(1,0),(0,-1),(0,1),(1,1),(-1,-1)]
-N = 4
+N = 5
 steps_forward = 3
 global board
 board = [[0 for j in range(N)]for i in range(N)]
@@ -108,7 +108,6 @@ def make_split(x) :
     return x.split("y")
 
 def rate_move(x,y,step):
-    #print("Hice rate_move con", x, y, "con step =",step)
     I_play = (step+1)%2
     board[x][y] = 'B' if I_play else 'R'
     if step == steps_forward:
@@ -150,7 +149,6 @@ def make_move():
         x = int(moves[i][0])
         y = int(moves[i][1])
         board[x][y] = 'B' if i%2 else 'R' #I am Blue and I'm playing second
-    #print(take_distance(False)-take_distance(True))
     if(won_player(True)):
         print("l")
         return
@@ -177,24 +175,3 @@ def make_move():
     return
 
 make_move()
-
-    
-    
-
-
-
-# def match(start): #returns -1 if I lost or 1 if I won.
-#     #I am blue, my rival is red
-#     if start :
-#         pass
-#         #aca si justo me toca empezar
-#     moves = list(map(lambda x:x.split("y"), input().split("x")[1:]))
-#     for x,y in moves:
-#         x =int(x)
-#         y =int(y)
-#         board[x][y] = 'R'
-#         print_pretty(board)
-#         print(take_distance(False))
-#         if(won_player(True)):
-#             return -1
-#         #aca defino la jugada

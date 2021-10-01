@@ -44,4 +44,4 @@ function gen(n){ //
   document.getElementById('content').innerHTML = answer ;
 }
 
-gen(4);
+gen(5);
