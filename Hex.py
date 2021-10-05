@@ -1,8 +1,8 @@
 from termcolor import colored
 import queue
 adj = [(-1,0),(1,0),(0,-1),(0,1),(1,1),(-1,-1)]
-N = 5
-steps_forward = 2
+N = 4
+steps_forward = 3
 global board
 board = [[0 for j in range(N)]for i in range(N)]
 global rates

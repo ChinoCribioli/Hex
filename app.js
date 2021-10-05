@@ -18,7 +18,9 @@ app.get('/', function(req, res) {
 });
 
 app.get('/algo/:movs', function(req, res) {
-  var stdout = execSync("pypy3 Hex.py", {input: req.params['movs']});
+  //comment these lines depending on if you want to run python code or c++ code:
+  var stdout = execSync("./a.out", {input: req.params['movs']});
+  //var stdout = execSync("pypy3 Hex.py", {input: req.params['movs']});
   res.set("text/plain").send(stdout);
   // res.set("text/plain").send(stdout);//esto es el output de python
 });
