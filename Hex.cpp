@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <cstring>
 
 using namespace std;
 
@@ -267,7 +268,16 @@ void make_move(){
     return;
 }
 
-int main(){
-	make_move();
+int main(int argc, char * argv[]){
+	if(argc>=2){
+		if (strcmp(argv[1],"web")==0) {
+			make_move();
+			return 0;
+		} else if (strcmp(argv[1],"interactive")==0) {
+			cout<<"TODO\n";
+			return 0;
+		}
+	}
+	cout<< "Error\n";
 	return 0;
 }
