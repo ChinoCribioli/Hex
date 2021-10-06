@@ -51,10 +51,6 @@ function gen(n){
     for(var j=0;j<n;j++){
       answer += CreateButton(i,j);
     }
-    if(i==n-1){
-      for(var j=0;j<6*n;j++) answer += "&nbsp;"
-      answer += "<button class='BlueBorder'></button>";
-    }
     answer += "<br/>"
   }
   answer += "<button class='RedBorder'></button></br>"
