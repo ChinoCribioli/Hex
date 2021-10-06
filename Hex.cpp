@@ -135,23 +135,25 @@ int take_distance(bool player){ //the minimum number of tiles needed to win when
     return N*N+2;
 }
 
-//~ def print_pretty(something) :
-    //~ for i in range(N) :
-        //~ line = ""
-        //~ line += " "*(N-1-i)
-        //~ for j in range(N):
-            //~ if something[i][j] == 'B' :
-                //~ line += colored(something[i][j],'blue')
-            //~ elif something[i][j] == 'R' :
-                //~ line += colored(something[i][j],'red')
-            //~ else : line += str(something[i][j])
-            //~ if(j != N-1) : line += ' '
-        //~ print(line)
-    //~ print('---------------')
-    //~ return
-
-//~ def make_split(x) :
-    //~ return x.split("y")
+void print_pretty(){
+	forn(i,N){
+        string line = "";
+        forn(j,N-1-i)line += " ";
+        forn(j,N){
+            if(board[i][j] == 'B'){
+                line += "\u001b[34mB ";//strange command that colors the character B in blue
+            }
+            else if(board[i][j] == 'R'){
+                line += "\u001b[31mR ";
+            }
+            else line += "\u001b[0m0 ";
+            //if(j != N-1) line += ' ';
+        }
+        cout << line << "\n";
+    }
+    cout << "\u001b[0m---------------\n";
+    return;
+}
 
 int rate_move(int x,int y,int step){
 	bool I_play = (step+1)%2;
@@ -255,7 +257,7 @@ void make_move(){
 		}
     }
     board[move.F][move.S] = 'B';
-    //print_pretty(board)
+    //print_pretty();
     if(won_player(false)){
         cout << answer+"w\n";
     }
