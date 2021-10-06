@@ -13,7 +13,7 @@ using namespace std;
 
 
 vector<pair<int,int>> adj = {mp(-1,0),mp(1,0),mp(0,-1),mp(0,1),mp(1,1),mp(-1,-1)};
-const int N = 4;
+const int N = 5;
 const int steps_forward = 3;
 char board[N][N];
 
@@ -70,6 +70,7 @@ int take_distance(bool player){ //the minimum number of tiles needed to win when
     //player == True, then I'm measuring my tiles, player == False for rival's tiles
     int distance[N][N];
     forn(i,N)forn(j,N) distance[i][j] = N*N+2;
+    queue<pair<int,int>> t;
     vector<queue<pair<int,int>>> q(N*N);
     
     forn(i,N){
@@ -97,17 +98,18 @@ int take_distance(bool player){ //the minimum number of tiles needed to win when
     forn(k,N*N){
         while(! q[k].empty()){
             pair<int,int> p = q[k].front();
-            int i = p.F, j=p.S;
+            int i = p.F, j = p.S;
             q[k].pop();
-            for(pair<int,int> direction : adj){
-				int a = direction.S, b = direction.S;
-                if(! is_on_board(i+a,j+b)) continue;
+            for(pair<int,int> direction : adj){//
+				int a = direction.F, b = direction.S;
+				if(! is_on_board(i+a,j+b)) continue;
                 if(distance[i+a][j+b] <= k) continue;
-                if((player && board[i+a][j+b] == 'R') || ((!player) && board[i+a][j+b] == 'B')) continue;
+                if((player && (board[i+a][j+b] == 'R')) || ((!player) && (board[i+a][j+b] == 'B'))) continue;
                 if(board[i+a][j+b] == '0'){
-                    if(distance[i+a][j+b] <= k+1) continue;
-                    distance[i+a][j+b] = k+1;
-                    q[k+1].push(mp(i+a,j+b));
+                    if(distance[i+a][j+b] > k+1){
+						distance[i+a][j+b] = k+1;
+						q[k+1].push(mp(i+a,j+b));
+					}
                 }
                 if(player){
                     if(board[i+a][j+b] == 'B'){
@@ -121,10 +123,10 @@ int take_distance(bool player){ //the minimum number of tiles needed to win when
                         q[k].push(mp(i+a,j+b));
                     }
                 }
-                if(player && j+b == N-1){ //If it's the first tile in the opposite side, return that distance
+                if(player && (j+b == N-1)){ //If it's the first tile in the opposite side, return that distance
                     return distance[i+a][j+b];
                 }
-                if((! player) && i+a == N-1){
+                if((! player) && (i+a == N-1)){
                     return distance[i+a][j+b];
                 }
 			}
