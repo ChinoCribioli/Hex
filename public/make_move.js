@@ -1,65 +1,79 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <cstring>
+// function Queue() {
 
-using namespace std;
+//     this.dataStore = Array.prototype.slice.call(arguments, 0);
+//     this.enqueue = enqueue;
+//     this.dequeue = dequeue;
+//     this.empty = empty;
+//     this.isEmpty = isEmpty;
+//     this.front = front;
+    
+//     function enqueue(element) {
+//         this.dataStore.push(element);
+//     }
 
-#define pb push_back
-#define mp make_pair
-#define F first
-#define S second
-#define forn(i,n) for(int i=0;i<(int)(n); i++)
-#define forsn(i,s,n) for(int i=int(s);i<(int)(n); i++)
+//     function dequeue() {
+//         return this.dataStore.shift();
+//     }
 
+//     function empty() {
+//         return this.dataStore = [];
+//     }
 
-vector<pair<int,int>> adj = {mp(-1,0),mp(1,0),mp(0,-1),mp(0,1),mp(1,1),mp(-1,-1)};
-const int N = 5;
-const int steps_forward = 3;
-char board[N][N];
+//     function isEmpty() {
+//         return this.dataStore == [];
+//     }
 
-bool is_on_board(int a, int b){
+//     function front() {
+//         return this.dataStore[0];
+//     }
+// }
+
+var adj = [[-1,0],[1,0],[0,-1],[0,1],[1,1],[-1,-1]];
+var N = 5;
+var steps_forward = 3;
+var board = new Array(N).fill(new Array(N).fill('0'));
+
+function is_on_board(a,b){
 	if(0 > a || 0 > b || a >= N || b >= N) return false;
 	return true;
 }
 
-bool won_player(bool player){ //player == True if I want to know if my rival won
-    queue<pair<int,int>> q;
-    bool been_there[N][N];
-    forn(i,N)forn(j,N) been_there[i][j] = false;
+function won_player(player){ //player == True if I want to know if my rival won
+    var q = new Array(0);
+    var been_there = new Array(N).fill(new Array(N).fill(false));
     if(player){
-        forn(i,N){
+        for(var i = 0 ; i < N ; i++){
             if(board[0][i] == 'R'){ 
-                q.push(mp(0,i));
+                q.push([0,i]);
                 been_there[0][i] = true;
             }
         }
     }
     else{
-        forn(i,N){
+        for(var i = 0 ; i < N ; i++){
             if(board[i][0] == 'B'){ 
-                q.push(mp(i,0));
+                q.push([i,0]);
                 been_there[i][0] = true;
             }
         }
     }
-    while(! q.empty()){
-        int i = q.front().F, j = q.front().S;
-        q.pop();
-        for(pair<int,int> p : adj){
-			int a = p.F, b = p.S;
+    while(q.length != 0){
+        var i = q[0][0], j = q[0][1];
+        q.shift();
+        for(var d = 0 ; d < 6 ; d++){
+			var a = adj[d][0], b = adj[d][1];
             if(player){
                 if(is_on_board(i+a,j+b) && (board[i+a][j+b] == 'R') && (! been_there[i+a][j+b])){
                     if(a+i == N-1) return true;
                     been_there[i+a][j+b] = true;
-                    q.push(mp(i+a,j+b));
+                    q.push([i+a,j+b]);
                 }
             }
             else{
                 if(is_on_board(i+a,j+b) && (board[i+a][j+b] == 'B') && (! been_there[i+a][j+b])){
                     if(b+j == N-1) return true;
                     been_there[i+a][j+b] = true;
-                    q.push(mp(i+a,j+b));
+                    q.push([i+a,j+b]);
                 }
             }
         }             
@@ -67,61 +81,61 @@ bool won_player(bool player){ //player == True if I want to know if my rival won
     return false;
 }
 
-int take_distance(bool player){ //the minimum number of tiles needed to win when playing alone
+function take_distance(player){ //the minimum number of tiles needed to win when playing alone
     //player == True, then I'm measuring my tiles, player == False for rival's tiles
-    int distance[N][N];
-    forn(i,N)forn(j,N) distance[i][j] = N*N+2;
-    queue<pair<int,int>> t;
-    vector<queue<pair<int,int>>> q(N*N);
+    var distance = new Array(N).fill(new Array(N).fill(N*N+2));
+    var q = new Array(N*N).fill([]);
     
-    forn(i,N){
+    for(var i = 0 ; i < N ; i++){
         if(player){
             if(board[i][0] == 'B'){
                 distance[i][0] = 0;
-                q[0].push(mp(i,0));
+                q[0].push([i,0]);
             }
             else if(board[i][0] == '0'){
                 distance[i][0] = 1;
-                q[1].push(mp(i,0));
+                q[1].push([i,0]);
             }
         }
         else{
             if(board[0][i] == 'R'){
                 distance[0][i] = 0;
-                q[0].push(mp(0,i));
+                (q[0]).push([0,i]);
             }
             else if(board[0][i] == '0'){
                 distance[0][i] = 1;
-                q[1].push(mp(0,i));
+                q[1].push([0,i]);
             }
         }
 	}
-    forn(k,N*N){
-        while(! q[k].empty()){
-            pair<int,int> p = q[k].front();
-            int i = p.F, j = p.S;
-            q[k].pop();
-            for(pair<int,int> direction : adj){
-				int a = direction.F, b = direction.S;
+    //console.log(q[21].length);
+    for(var k = 0 ; k < N*N ; k++){
+        while(q[k].length != 0){
+            p = q[k][0];
+            //console.log(q[k]);
+            var i = p[0], j = p[1];
+            (q[k]).shift();
+            for(var d = 0 ; d < 6 ; d++){
+				var a = adj[d][0], b = adj[d][1];
 				if(! is_on_board(i+a,j+b)) continue;
                 if(distance[i+a][j+b] <= k) continue;
                 if((player && (board[i+a][j+b] == 'R')) || ((!player) && (board[i+a][j+b] == 'B'))) continue;
                 if(board[i+a][j+b] == '0'){
                     if(distance[i+a][j+b] > k+1){
 						distance[i+a][j+b] = k+1;
-						q[k+1].push(mp(i+a,j+b));
+						q[k+1].push([i+a,j+b]);
 					}
                 }
                 if(player){
                     if(board[i+a][j+b] == 'B'){
                         distance[i+a][j+b] = k;
-                        q[k].push(mp(i+a,j+b));
+                        q[k].push([i+a,j+b]);
                     }
                 }
                 else{
                     if(board[i+a][j+b] == 'R'){
                         distance[i+a][j+b] = k;
-                        q[k].push(mp(i+a,j+b));
+                        q[k].push([i+a,j+b]);
                     }
                 }
                 if(player && (j+b == N-1)){ //If it's the first tile in the opposite side, return that distance
@@ -136,11 +150,11 @@ int take_distance(bool player){ //the minimum number of tiles needed to win when
     return N*N+2;
 }
 
-void print_pretty(){
-	forn(i,N){
-        string line = "";
-        forn(j,N-1-i)line += " ";
-        forn(j,N){
+function print_pretty(){
+	for(var i = 0 ; i < N ; i++){
+        var line = "";
+        for(var j = 0 ; j < N-1-i ; j++){line += " ";}
+        for(var j = 0 ; j < N ; j++){
             if(board[i][j] == 'B'){
                 line += "\u001b[34mB ";//strange command that colors the character B in blue
             }
@@ -148,18 +162,17 @@ void print_pretty(){
                 line += "\u001b[31mR ";
             }
             else line += "\u001b[0m0 ";
-            //if(j != N-1) line += ' ';
         }
-        cout << line << "\n";
+        console.log(line + "\n");
     }
-    cout << "\u001b[0m---------------\n";
+    console.log("\u001b[0m---------------\n");
     return;
 }
 
-int rate_move(int x,int y,int step){
-	bool I_play = (step+1)%2;
+function rate_move(x,y,step){
+	var I_play = (step+1)%2;
     board[x][y] = (I_play ? 'B' : 'R');
-    int answer = 0;
+    var answer = 0;
     if(step == steps_forward){
         answer = take_distance(false) - take_distance(true);
         board[x][y] = '0';
@@ -167,9 +180,9 @@ int rate_move(int x,int y,int step){
     }
     if(I_play){ //Then it means that my rival has the next, which will have the smaller rate possible
         answer = 2*N*N;
-        forn(i,N)forn(j,N){
+        for(var i = 0 ; i < N ; i++)for(var j = 0 ; j < N ; j++){
 			if(board[i][j] == '0'){
-                int rate = rate_move(i,j,step+1);
+                var rate = rate_move(i,j,step+1);
                 if(answer > rate){
                     answer = rate;
                     if(answer == -(N*N+2)){
@@ -184,9 +197,9 @@ int rate_move(int x,int y,int step){
     }
     //Now, if my rival is playing
     answer = -2*N*N;
-    forn(i,N)forn(j,N){
+    for(var i = 0 ; i < N ; i++)for(var j = 0 ; j < N ; j++){
         if(board[i][j] == '0'){
-            int rate = rate_move(i,j,step+1);
+            var rate = rate_move(i,j,step+1);
             if(answer < rate){
                 answer = rate;
                 if(answer == N*N+2){
@@ -200,84 +213,67 @@ int rate_move(int x,int y,int step){
     return answer;
 }
 
-vector<pair<int,int>> parse_moves(string history){
-	if(history[0]=='s') history.erase(history.begin(),history.begin()+1);
-	vector<pair<int,int>> answer(0);
-	int i = 1;
-	while(i < int(history.size())){
-		string x = "";
+function parse_moves(history){
+	if(history[0]=='s') history.erase(history.begin());
+	var answer = [];
+	var i = 1;
+	while(i < history.length){
+		var x = "";
 		while(history[i] != 'y') x += history[i++];
 		i++;
-		string y = "";
-		while(history[i] != 'x' && i < int(history.size())) y += history[i++];
+		var y = "";
+		while(history[i] != 'x' && i < history.length) y += history[i++];
 		i++;
-		answer.pb(mp(stoi(x),stoi(y)));//stoi returns the integer representation of the given string
+		answer.push([x,y]);
 	}
 	return answer;
 }
 
-void make_move(){
-	forn(i,N)forn(j,N) board[i][j] = '0';
-    string history;
-    cin >> history;
-    vector<pair<int,int>> moves = parse_moves(history);
+function make_move(history){
+	for(var i = 0 ; i < N ; i++)for(var j = 0 ; j < N ; j++) board[i][j] = '0';
+    var moves = parse_moves(history);
     if(history[0] == 's'){
-        forn(i,moves.size()){
-            int x = moves[i].F;
-            int y = moves[i].S;
+        for(var i = 0 ; i < moves.length ; i++){
+            var x = moves[i][0];
+            var y = moves[i][1];
             board[x][y] = (i%2 ? 'R' : 'B'); //I am Blue and I'm playing first
 		}
     }
     else{
-        forn(i,moves.size()){
-            int x = moves[i].F;
-            int y = moves[i].S;
+        for(var i = 0 ; i < moves.length ; i++){
+            var x = moves[i][0];
+            var y = moves[i][1];
             board[x][y] = (i%2 ? 'B' : 'R'); //I am Blue and I'm playing second
 		}
     }
     if(won_player(true)){
-        cout << "l\n";
-        return;
+        return "l\n";
     }
-    string answer = "";
-    int maximum_rate = -N*N*2;
-    pair<int,int> move;
-    forn(i,N){
+    var answer = "";
+    var maximum_rate = -N*N*2;
+    var move = new Array(2);
+    for(var i = 0 ; i < N ; i++){
         if(maximum_rate == N*N+2) break;
-        forn(j,N){
+        for(var j = 0 ; j < N ; j++){
             if(board[i][j] == '0'){
-                int rate = rate_move(i,j,0);
+                var rate = rate_move(i,j,0);
                 if(maximum_rate < rate){
                     maximum_rate = rate;
-                    answer = "x" + to_string(i) + "y" + to_string(j);
-                    move.F = i;
-                    move.S = j;
+                    answer = "x" + String(i) + "y" + String(j);
+                    move[0] = i;
+                    move[1] = j;
                 }
                 if(maximum_rate == N*N+2) break;
 			}
 		}
     }
-    board[move.F][move.S] = 'B';
+    //console.log(move);
+    board[move[0]][move[1]] = 'B';
     //print_pretty();
     if(won_player(false)){
-        cout << answer+"w\n";
+        return answer+"w\n";
     }
     else{
-        cout << answer + "\n";
+        return answer + "\n";
     }
-    return;
-}
-
-int main(int argc, char * argv[]){
-	if(argc>=2){
-		if (strcmp(argv[1],"web")==0) {
-			make_move();
-			return 0;
-		} else if (strcmp(argv[1],"interactive")==0) {
-			cout<<"TODO\n";
-			return 0;
-		}
-	}
-	cout<< "Error\n";
-	return 0;
 }
