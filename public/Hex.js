@@ -21,7 +21,28 @@ function color(s){
   document.getElementById(s).className = "RedButton";
   
   
-  // var response = make_move(moves).slice(0,-1);//I want to remove the last character because it's a line break
+  var response = make_move(moves).slice(0,-1);//I want to remove the last character because it's a line break
+  moves += response;
+  console.log(moves);
+  var last_char = response[response.length-1];
+  if(last_char == 'l'){
+    document.getElementById('content').innerHTML += "</br>Congratulations, you won!";
+    return;
+  }
+  if(last_char == 'w'){
+    response = response.slice(0,-1);
+    document.getElementById(response).className = "BlueButton";
+    document.getElementById('content').innerHTML += "</br>Haha, you lost!";
+    return;
+  }
+  document.getElementById(response).className = "BlueButton";
+  turn = true;
+
+  //This is for when you want to run c++ or python code
+
+  // var oReq = new XMLHttpRequest();
+  // oReq.addEventListener("load", function() {
+  //   var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
   //   moves += response;
   //   console.log(moves);
   //   var last_char = response[response.length-1];
@@ -37,29 +58,9 @@ function color(s){
   //   }
   //   document.getElementById(response).className = "BlueButton";
   //   turn = true;
-
-
-  var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", function() {
-    var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
-    moves += response;
-    console.log(moves);
-    var last_char = response[response.length-1];
-    if(last_char == 'l'){
-      document.getElementById('content').innerHTML += "</br>Congratulations, you won!";
-      return;
-    }
-    if(last_char == 'w'){
-      response = response.slice(0,-1);
-      document.getElementById(response).className = "BlueButton";
-      document.getElementById('content').innerHTML += "</br>Haha, you lost!";
-      return;
-    }
-    document.getElementById(response).className = "BlueButton";
-    turn = true;
-  });
-  oReq.open("GET","http://localhost:3000/algo/" + moves);
-  oReq.send();
+  // });
+  // oReq.open("GET","http://localhost:3000/algo/" + moves);
+  // oReq.send();
 
 }
 
@@ -97,16 +98,25 @@ function you_start(){
   document.getElementById('start').remove();
   turn = false;
   moves += 's';
-  var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", function() {
-    var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
-    moves += response;
-    console.log(moves);
-    document.getElementById(response).className = "BlueButton";
-    turn = true;
-  });
-  oReq.open("GET","http://localhost:3000/algo/" + moves);
-  oReq.send();
+  
+  var response = make_move(moves).slice(0,-1);//I want to remove the last character because it's a line break
+  moves += response;
+  console.log(moves);
+  document.getElementById(response).className = "BlueButton";
+  turn = true;
+
+  //And the same here: this is if you want to run c++ or python code
+
+  // var oReq = new XMLHttpRequest();
+  // oReq.addEventListener("load", function() {
+  //   var response = this.responseText.slice(0,-1);//I want to remove the last character because it's a line break
+  //   moves += response;
+  //   console.log(moves);
+  //   document.getElementById(response).className = "BlueButton";
+  //   turn = true;
+  // });
+  // oReq.open("GET","http://localhost:3000/algo/" + moves);
+  // oReq.send();
 }
 
 gen(5);

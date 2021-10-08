@@ -1,37 +1,11 @@
-// function Queue() {
-
-//     this.dataStore = Array.prototype.slice.call(arguments, 0);
-//     this.enqueue = enqueue;
-//     this.dequeue = dequeue;
-//     this.empty = empty;
-//     this.isEmpty = isEmpty;
-//     this.front = front;
-    
-//     function enqueue(element) {
-//         this.dataStore.push(element);
-//     }
-
-//     function dequeue() {
-//         return this.dataStore.shift();
-//     }
-
-//     function empty() {
-//         return this.dataStore = [];
-//     }
-
-//     function isEmpty() {
-//         return this.dataStore == [];
-//     }
-
-//     function front() {
-//         return this.dataStore[0];
-//     }
-// }
-
 var adj = [[-1,0],[1,0],[0,-1],[0,1],[1,1],[-1,-1]];
 var N = 5;
 var steps_forward = 3;
-var board = new Array(N).fill(new Array(N).fill('0'));
+var board = new Array(N);
+for(var i = 0 ; i < N ; i++){
+    board[i] = [];
+    for(var j = 0 ; j < N ; j++) board[i].push('0');
+}
 
 function is_on_board(a,b){
 	if(0 > a || 0 > b || a >= N || b >= N) return false;
@@ -39,8 +13,12 @@ function is_on_board(a,b){
 }
 
 function won_player(player){ //player == True if I want to know if my rival won
-    var q = new Array(0);
-    var been_there = new Array(N).fill(new Array(N).fill(false));
+    var q = [];
+    var been_there = new Array(N);
+    for(var i = 0 ; i < N ; i++){
+        been_there[i] = [];
+        for(var j = 0 ; j < N ; j++) been_there[i].push(false);
+    }
     if(player){
         for(var i = 0 ; i < N ; i++){
             if(board[0][i] == 'R'){ 
@@ -83,8 +61,13 @@ function won_player(player){ //player == True if I want to know if my rival won
 
 function take_distance(player){ //the minimum number of tiles needed to win when playing alone
     //player == True, then I'm measuring my tiles, player == False for rival's tiles
-    var distance = new Array(N).fill(new Array(N).fill(N*N+2));
-    var q = new Array(N*N).fill([]);
+    var distance = new Array(N);
+    for(var i = 0 ; i < N ; i++){
+        distance[i] = [];
+        for(var j = 0 ; j < N ; j++) distance[i].push(N*N+2);
+    }
+    var q = new Array(N*N);
+    for(var i = 0 ; i < N*N ; i++) q[i] = [];
     
     for(var i = 0 ; i < N ; i++){
         if(player){
@@ -108,11 +91,9 @@ function take_distance(player){ //the minimum number of tiles needed to win when
             }
         }
 	}
-    //console.log(q[21].length);
     for(var k = 0 ; k < N*N ; k++){
         while(q[k].length != 0){
             p = q[k][0];
-            //console.log(q[k]);
             var i = p[0], j = p[1];
             (q[k]).shift();
             for(var d = 0 ; d < 6 ; d++){
@@ -163,9 +144,9 @@ function print_pretty(){
             }
             else line += "\u001b[0m0 ";
         }
-        console.log(line + "\n");
+        console.log(line);
     }
-    console.log("\u001b[0m---------------\n");
+    console.log("\u001b[0m---------------");
     return;
 }
 
@@ -214,7 +195,7 @@ function rate_move(x,y,step){
 }
 
 function parse_moves(history){
-	if(history[0]=='s') history.erase(history.begin());
+	if(history[0]=='s') history = history.substring(1);
 	var answer = [];
 	var i = 1;
 	while(i < history.length){
@@ -251,7 +232,7 @@ function make_move(history){
     }
     var answer = "";
     var maximum_rate = -N*N*2;
-    var move = new Array(2);
+    var move = [-1,-1];
     for(var i = 0 ; i < N ; i++){
         if(maximum_rate == N*N+2) break;
         for(var j = 0 ; j < N ; j++){
@@ -267,7 +248,6 @@ function make_move(history){
 			}
 		}
     }
-    //console.log(move);
     board[move[0]][move[1]] = 'B';
     //print_pretty();
     if(won_player(false)){
