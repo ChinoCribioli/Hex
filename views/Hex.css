@@ -1,38 +1,30 @@
+path {
+  stroke: black;
+  stroke-width: 5px
+}
 .WhiteButton {
-    border: 1px solid;
-    padding: 10px 10px;
-    background-color: white;
+    fill: white;
     transition-duration: 0.4s;
     cursor: pointer;
   }
 
-  .RedButton {
-    border: 1px solid;
-    padding: 10px 10px;
-    background-color: red;
-  }
 
-  .RedButton:hover {
-    background-color: red;
-  }
-  
-  .BlueButton {
-    padding: 10px 10px;
-    background-color: blue; 
-    border: 1px solid;
-  }
-
-  .BlueButton:hover {
-    background-color: blue;
- }
-
+.RedBorder,.RedButton {
+  fill: #BE0E1A;
+}
+.RedButton:hover {
+  fill: #5F070D;
+}
 .WhiteButton:hover {
-    background-color: red;
- }
-.odd .WhiteButton:hover { background-color: blue;}
+  fill: #F2545F;
+}
 
-.RedBorder {
-  border: 1px solid;
-  padding: 10px 75px;
-  background-color: red;
+.BlueBorder,.BlueButton {
+  fill: #1E6685; 
+}
+.BlueButton:hover {
+  fill: #0F3343;
+}
+.odd .WhiteButton:hover {
+  fill: #48ABD5;
 }
