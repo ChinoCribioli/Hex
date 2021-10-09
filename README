@@ -1,0 +1,9 @@
+This is a web page that allows the client to play the board game called Hex. This is a quite interesting and studied example in the field of game theory.
+
+This repository includes:
+
+*A static version that runs the javascript algorithm in the client side, located in the "views" folder.
+
+*A node js version that can be executed running "node app.js". This uses the html file in "views", the css and js files in "public", and the algorithm that decides the move can be runned either in c++ by "Hex.cpp" or in python3 by "Hex.py".
+
+*A web version that calls Google Cloud service to run the c++ code. These files are located in the folders "cloud_code" and "cloud_static".
