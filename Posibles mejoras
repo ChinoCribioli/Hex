@@ -1,5 +1,3 @@
 *Guardar todos los tableros que alcanzo y su puntuacion en un diccionario para no calcular las puntuaciones muchas veces innecesariamente (map en c++)
-*Adaptar el codigo a js (buscando alguna implementacion de queues) y hacer todo de forma local en el cliente
 *Arreglar el bug de que cuando quedan menos casillas que la profundidad se rompe
-*Intentar subir el node js a google cloud en vez de solo el c++
 *Añadir una matriz de rates para decidir en casos de empates, como cercania/lejania a casillas rojas, o formaciones puentes
