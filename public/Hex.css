@@ -36,3 +36,15 @@
   padding: 10px 75px;
   background-color: red;
 }
+
+body{
+  color : white;
+  text-align: center;
+  background-color: #419e6c;
+}
+
+#content{
+  background-color: #6b6b6b;
+  margin-left: 37%;
+  margin-right: 37%;
+}

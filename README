@@ -7,3 +7,12 @@ This repository includes:
 *A node js version that can be executed running "node app.js". This uses the html file in "views", the css and js files in "public", and the algorithm that decides the move can be runned either in c++ by "Hex.cpp" or in python3 by "Hex.py".
 
 *A web version that calls Google Cloud service to run the c++ code. These files are located in the folders "cloud_code" and "cloud_static".
+
+The idea of the algorithm that decides which move is the optimal is quite straightforward: We simulate every possible succession of 4 moves (that is, we are looking the immediate move and three steps in the future), and among all the possible outcomes, we choose the best rated move using the following rule:
+
+Given a position (a colored board), its rating is the minimum number of tiles that the rival has to paint to win (assuming that I'm not painting any further tiles) minus the minimum number of tiles that I have to paint to win (assuming that the rival is not painting any further tiles). The correctness of this algorithm relies on the fact that if I want to win, I have to maximize that value, and the rival has to minimize it. So, when the rival is playing, they will select the move that minimizes that value, and when I'm playing, I will select the move that maximizes it.
+
+So, the rating of a position 4 moves in the future will be that value. The rating of a position 3 moves in the future will be the minimum of the ratings of every position the rival can reach by making a move (leaving a position 4 moves in the future). The rating of a position 2 moves in the future will be the maximum of the ratings of every position I can reach by making a move (leaving a position 3 moves in the future), because I'm playing now and I want the maximum rating. The rating of a position 1 move in the future will be the minimum of all the positions 2 moves in the future that the rival can reach from there, and so on (this is called Minimax method).
+
+
+Note that, in the code, both the size of the board and the number of moves in the future the algorithm will see are both variables, leaving us the freedom to experiment with different values.
