@@ -73,6 +73,8 @@ function CreateButton(x,y){
 }
 
 function gen(n){//I generate the board in the page
+  moves = "";
+  turn = true;
   var answer = "</br>";
   for(var counter=0;counter<3*(n-1);counter++) answer += "&nbsp;";
   answer += "<button class='RedBorder'></button></br>";
@@ -88,9 +90,10 @@ function gen(n){//I generate the board in the page
   answer += "<button class='RedBorder'></button>";
   for(var counter=0;counter<3*(n-1)+1;counter++)answer += "&nbsp;";
   answer += "</br>";
+  answer += "</br> <button id='start' onclick=you_start()>Play second.</button>";
+  answer += "&nbsp <button id='reload' onclick=gen(" + n + ")>Reload.</button>";
+  answer += "</br> <div id='result'></div>";
   document.getElementById('content').innerHTML = answer;
-  document.getElementById('content').innerHTML += "</br> <button id='start' onclick=you_start()>Play second.</button>";
-  document.getElementById('content').innerHTML += "<div id='result'></div>";
   var red_borders = document.getElementsByClassName("RedBorder");//esto hay que mirarlo
   for(var i=0; i<red_borders.length; i++){
     red_borders[i].style.padding = "10px " + String(62+13*(n-5)) + "px";
