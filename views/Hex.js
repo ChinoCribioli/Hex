@@ -78,7 +78,6 @@ function gen(n){//I generate the board in the page
   var answer = "</br>";
   for(var counter=0;counter<3*(n-1);counter++) answer += "&nbsp;";
   answer += "<button class='RedBorder'></button></br>";
-  //answer += "<button class='BlueBorder'></button>";
   for(var i=0;i<n;i++){
     for(var counter=0;counter<3*(n-1-i);counter++)answer += "&nbsp;";
     for(var j=0;j<n;j++){
