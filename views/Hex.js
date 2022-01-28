@@ -91,7 +91,7 @@ function gen(n){//I generate the board in the page
   answer += "</br>";
   answer += "</br> <button id='start' onclick=you_start()>Play second</button>";
   answer += "&nbsp <button id='reload' onclick=gen(" + n + ")>Reload</button>";
-  answer += "</br> <div id='result'></div>";
+  answer += "</br> <div id='result'></div></br>";
   document.getElementById('content').innerHTML = answer;
   var red_borders = document.getElementsByClassName("RedBorder");//esto hay que mirarlo
   for(var i=0; i<red_borders.length; i++){
